@@ -1,15 +1,17 @@
 spring:
-    profiles:
-        active: dev
-    jpa:
-        open-in-view: false
-        hibernate:
-            ddl-auto: none
+  profiles:
+    active: dev
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+
 security:
-    basic:
-        enabled: false
+  basic:
+    enabled: false
 
 currencylayer:
   key: c80a8abd90e84389e51e1c20153b07da
   host: http://apilayer.net/api
   currencies: EUR,USD,GBP,NZD,AUD,JPY,HUF,MDL
+  timeout: 3600

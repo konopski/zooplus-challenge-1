@@ -13,14 +13,8 @@ public class CurrencyLayerProperties {
     private String key;
     private String host;
     private Set<String> currencies = new HashSet<>();
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
+    //Default value 1 hour
+    private Integer timeout = 3600;
 
     public String getKey() {
         return key;
@@ -30,11 +24,37 @@ public class CurrencyLayerProperties {
         this.key = key;
     }
 
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
     public Set<String> getCurrencies() {
         return currencies;
     }
 
     public void setCurrencies(Set<String> currencies) {
         this.currencies = currencies;
+    }
+
+    public Integer getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Integer timeout) {
+        this.timeout = timeout;
+    }
+
+    @Override
+    public String toString() {
+        return "CurrencyLayerProperties{" +
+                "key='" + key + '\'' +
+                ", host='" + host + '\'' +
+                ", currencies=" + currencies +
+                ", timeout=" + timeout +
+                '}';
     }
 }

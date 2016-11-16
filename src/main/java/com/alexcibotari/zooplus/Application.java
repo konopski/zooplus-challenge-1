@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.SimpleCommandLinePropertySource;
 
 import java.net.InetAddress;
 
@@ -16,7 +15,6 @@ public class Application {
 
     public static void main(String[] args) throws Exception {
         SpringApplication app = new SpringApplication(Application.class);
-        SimpleCommandLinePropertySource source = new SimpleCommandLinePropertySource(args);
 
         ApplicationContext context = app.run(args);
         Environment env = context.getEnvironment();
@@ -27,23 +25,6 @@ public class Application {
                 serverPort,
                 InetAddress.getLocalHost().getHostAddress(),
                 serverPort);
-
-
-        /*User u = new User();
-        u.setUserName("test");
-        u.setEmail("test@test");
-        u.setPassword("test");
-        u.setEnabled(true);
-
-        UserRepository userRepository = context.getBean(UserRepository.class);
-
-        userRepository.save(u);
-
-        System.out.println("--------------------------------------------");
-        System.out.println(u);
-        System.out.println(u.getCreatedDate());
-        System.out.println("--------------------------------------------");*/
-
     }
 
 }

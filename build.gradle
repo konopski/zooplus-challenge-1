@@ -1,7 +1,7 @@
 buildscript {
 
     ext {
-        springBootVersion = '1.4.1.RELEASE'
+        springBootVersion = '1.4.2.RELEASE'
         springLoadedVersion = '1.2.5.RELEASE'
     }
     repositories {
@@ -42,6 +42,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-hateoas'
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'org.springframework.boot:spring-boot-starter-cache'
 
     //DEV
     compile 'org.springframework.boot:spring-boot-devtools'
@@ -50,6 +51,9 @@ dependencies {
     compile 'org.hibernate:hibernate-envers'
     compile 'mysql:mysql-connector-java'
     compile 'com.h2database:h2'
+    //Cache
+    compile 'org.ehcache:ehcache'
+    compile 'javax.cache:cache-api'
 
     //Commons
     compile 'org.apache.commons:commons-lang3:3.4'
