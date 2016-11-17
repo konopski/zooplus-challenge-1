@@ -13,21 +13,11 @@ class Home extends Component {
     }
 
     componentWillMount() {
-        /*var self = this;*/
         client({method: 'GET', path: this.props.apiUrl.exchanges + '/currencies'}).then(response => {
             if (response.status.code == 200) {
                 this.setState({currencies: response.entity, isLoading: false});
             }
         });
-        /*$.ajax({
-            url: 'api/configs/currencylayer',
-            dataType: 'json',
-            async: false,
-            success: function (response) {
-                self.state.currencylayer = response;
-            }
-        });
-        this.setState({isLoading: false});*/
     }
 
     render() {

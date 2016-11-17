@@ -36,7 +36,6 @@ public class CurrencyLayerServiceImp implements CurrencyLayerService {
 
     @Cacheable("currency-layer")
     public HistoricalResource getRateByDate(String date) {
-        System.out.println("getRateByDate");
         return restTemplate.getForObject(this.historicalURL, HistoricalResource.class, date);
     }
 

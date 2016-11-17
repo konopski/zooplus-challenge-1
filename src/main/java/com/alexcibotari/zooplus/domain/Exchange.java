@@ -12,14 +12,14 @@ public class Exchange extends AbstractAuditingEntity {
     private User owner;
     @Column(nullable = false)
     private String currency;
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 50, scale = 14)
     private BigDecimal amount;
     @Column(nullable = false)
     private String date;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyColumn(name = "key")
-    @Column(name = "value", precision = 30, scale = 14)
+    @Column(name = "value", precision = 50, scale = 14)
     @CollectionTable(name = "exchange_result", joinColumns = @JoinColumn(name = "exchange_id"))
     private Map<String, BigDecimal> result;
 
@@ -75,7 +75,8 @@ public class Exchange extends AbstractAuditingEntity {
     @Override
     public String toString() {
         return "Exchange{" +
-                "owner=" + owner +
+                "id=" + getId() +
+                ", owner=" + owner +
                 ", currency='" + currency + '\'' +
                 ", amount=" + amount +
                 ", date='" + date + '\'' +

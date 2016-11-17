@@ -67,7 +67,15 @@ public class ExchangeServiceImp implements ExchangeService {
             BigDecimal usdRate = historical.getQuotes().get(selectedRate);
             BigDecimal cvr = new BigDecimal(1).divide(usdRate, MathContext.DECIMAL128);
             Exchange exchange = new Exchange(currency, amount, date);
-            userService.getCurrentUser().ifPresent(exchange::setOwner);
+            Optional<User> user = userService.getCurrentUser();
+            user.ifPresent(exchange::setOwner);
+
+            user.ifPresent(u -> {
+                if (exchangeRepository.countByOwner(u) > 9) {
+                    exchangeRepository.findFirstByOwner(u).ifPresent(exchangeRepository::delete);
+                }
+            });
+
             exchange.setResult(historical.getQuotes().entrySet().stream()
                     .filter(map -> !map.getKey().equals(selectedRate))
                     .collect(Collectors.toMap(p -> p.getKey().substring(3), p -> cvr.multiply(amount).multiply(p.getValue()))));

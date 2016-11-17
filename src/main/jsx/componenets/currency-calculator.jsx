@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import client from '../services/client';
+import client from "../services/client";
 
 class CurrencyCalculator extends Component {
 
@@ -7,7 +7,9 @@ class CurrencyCalculator extends Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.getRateFromServer = this.getRateFromServer.bind(this);
+        this.convert = this.convert.bind(this);
+        this.getHistorical = this.getHistorical.bind(this);
+        this.fillForm = this.fillForm.bind(this);
         this.state = {
             response: false,
             form: {
@@ -15,12 +17,14 @@ class CurrencyCalculator extends Component {
                 amount: 1,
                 date: moment().format('YYYY-MM-DD')
             },
-            view: {}
+            view: {},
+            historical: []
         }
     }
 
 
     componentWillMount() {
+        this.getHistorical();
     }
 
     handleChange(e) {
@@ -30,18 +34,34 @@ class CurrencyCalculator extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.getRateFromServer();
+        this.convert();
     }
 
-    getRateFromServer() {
+    getHistorical() {
+        client({method: 'GET', path: this.props.apiUrl.exchanges})
+            .then(response => {
+                if (response.status.code == 200 && response.entity._embedded) {
+                    this.setState({historical: response.entity._embedded.exchanges});
+                }
+            });
+    }
+
+    convert() {
         client({
             method: 'GET',
             path: this.props.apiUrl.exchanges + '/convert/' + this.state.form.currency + '/' + this.state.form.amount + '/' + this.state.form.date
         }).then(response => {
             if (response.status.code == 200) {
+                if (this.state.historical.unshift(response.entity) > 10) {
+                    this.state.historical.pop();
+                }
                 this.setState({view: response.entity, response: true});
             }
         });
+    }
+
+    fillForm(form) {
+        this.setState({view: form, response: true});
     }
 
     renderForm() {
@@ -61,7 +81,7 @@ class CurrencyCalculator extends Component {
                     <label htmlFor="amount" className="col-sm-2 control-label">Amount</label>
                     <div className="col-sm-10">
                         <input classID="amount" name="amount" type="number" className="form-control"
-                               required="required"
+                               required="required" min="1" max="99999999999999"
                                onChange={this.handleChange} value={this.state.form.amount}/>
                     </div>
                 </div>
@@ -85,7 +105,7 @@ class CurrencyCalculator extends Component {
     renderResult() {
         if (this.state.response) {
             var rates = [];
-            for (var fieldName in this.state.view.result){
+            for (var fieldName in this.state.view.result) {
                 rates.push(<div key={fieldName}>{fieldName} - {this.state.view.result[fieldName]}</div>)
             }
             return (
@@ -103,12 +123,48 @@ class CurrencyCalculator extends Component {
 
     render() {
         return (
-            <div className="row">
-                <div className="col-md-6">
-                    {this.renderForm()}
+            <div className="container-fluid">
+                <div>
+                    <div className="col-md-12">
+                        <h2 className="title text-center">Currency Calculator</h2>
+                    </div>
                 </div>
-                <div className="col-md-6">
-                    {this.renderResult()}
+                <div className="row">
+                    <div className="col-md-6">
+                        {this.renderForm()}
+                    </div>
+                    <div className="col-md-6">
+                        {this.renderResult()}
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <h2 className="title text-center">Historical Results</h2>
+                        <table className="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Currency</th>
+                                <th>Amount</th>
+                                <th>Show Result</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.historical.map(h =>
+                                <tr key={h.createdDate}>
+                                    <th>{moment(h.createdDate).format('YYYY-MM-DD HH:MM:SS')}</th>
+                                    <th>{h.date}</th>
+                                    <th>{h.currency}</th>
+                                    <th>{h.amount}</th>
+                                    <th>
+                                        <button type="button" className="btn btn-primary" onClick={this.fillForm.bind(this,h)}>Show</button>
+                                    </th>
+                                </tr>
+                            )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         )

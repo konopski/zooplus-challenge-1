@@ -15,6 +15,10 @@ public interface ExchangeRepository extends CrudRepository<Exchange, Long> {
 
     List<Exchange> findAllByOwner(User user);
 
+    Optional<Exchange> findFirstByOwner(User user);
+
+    long countByOwner(User user);
+
     @Modifying
     Optional<Exchange> deleteOneById(Long id);
 }

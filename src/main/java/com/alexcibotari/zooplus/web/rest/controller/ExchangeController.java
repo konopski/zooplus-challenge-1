@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/exchanges", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,7 +56,7 @@ public class ExchangeController {
     @GetMapping
     public ResponseEntity<Resources<ExchangeResource>> list() {
         Link link = entityLinks.linkToCollectionResource(ExchangeResource.class);
-        Resources<ExchangeResource> resources = new Resources<>(resourceAssembler.toResources(service.findAllForCurrentUser()), link);
+        Resources<ExchangeResource> resources = new Resources<>(resourceAssembler.toResources(service.findAllForCurrentUser().stream().sorted((o1, o2) -> o2.getCreatedDate().compareTo(o1.getCreatedDate())).collect(Collectors.toList())), link);
         return ResponseEntity.ok(resources);
     }
 
