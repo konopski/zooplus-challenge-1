@@ -1,7 +1,7 @@
 package com.alexcibotari.zooplus.web.rest.resource;
 
 
-import org.hibernate.validator.constraints.Email;
+import com.alexcibotari.zooplus.utils.validation.EmailRFC;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.core.Relation;
@@ -17,8 +17,9 @@ import java.util.Set;
 @Relation(value = "user", collectionRelation = "users")
 public class UserResource extends AbstractAuditingResource {
 
+    @NotEmpty
     @Size(min = 3, max = 50)
-    @Email
+    @EmailRFC
     private String email;
 
     @NotEmpty

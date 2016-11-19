@@ -68,6 +68,7 @@
             <label for="inputContactCountry" class="col-sm-2 control-label">Country</label>
             <div class="col-sm-10">
                 <select th:field="*{contact.country}" id="inputContactCountry" name="contactCountry" class="form-control" required="">
+                    <option value="">Select Country</option>
                     <option th:each="country : ${countries}"
                             th:value="${country.key}"
                             th:text="${country.value}">Option</option>
