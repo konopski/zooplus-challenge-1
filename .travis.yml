@@ -1,2 +1,7 @@
 language: java
-script: ./gradlew testClasses
+jdk:
+  - oraclejdk8
+script:
+  - ./gradlew check
+  - ./gradlew assemble
+  - ./gradlew testClasses
