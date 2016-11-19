@@ -48,33 +48,33 @@ public class UserResourceController {
         return ResponseEntity.ok(resources);
     }
 
-    @GetMapping("{userName}")
+    @GetMapping("{email}")
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<UserResource> one(@PathVariable String userName) {
-        return toResourceResponse(service.findOneByUserName(userName));
+    public ResponseEntity<UserResource> one(@PathVariable String email) {
+        return toResourceResponse(service.findOneByEmail(email));
     }
 
     @PostMapping
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<?> create(@RequestBody UserResource resource) throws URISyntaxException {
-        if (service.findOneByUserName(resource.getUserName()).isPresent()) {
-            return new ResponseEntity<>(new ResourceError("UserName already in use"), HttpStatus.CONFLICT);
+        if (service.findOneByEmail(resource.getEmail()).isPresent()) {
+            return new ResponseEntity<>(new ResourceError("Email already in use"), HttpStatus.CONFLICT);
         } else {
             resource = resourceAssembler.toResource(service.create(resource));
             return ResponseEntity.created(new URI(resource.getId().getHref())).body(resource);
         }
     }
 
-    @PutMapping("{userName}")
+    @PutMapping("{email}")
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<UserResource> update(@PathVariable String userName, @RequestBody UserResource resource) {
-        return toResourceResponse(service.update(userName, resource));
+    public ResponseEntity<UserResource> update(@PathVariable String email, @RequestBody UserResource resource) {
+        return toResourceResponse(service.update(email, resource));
     }
 
-    @DeleteMapping("{userName}")
+    @DeleteMapping("{email}")
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<UserResource> delete(@PathVariable String userName) {
-        return toResourceResponse(service.delete(userName));
+    public ResponseEntity<UserResource> delete(@PathVariable String email) {
+        return toResourceResponse(service.delete(email));
     }
 
     private ResponseEntity<UserResource> toResourceResponse(Optional<User> entity) {
@@ -82,16 +82,16 @@ public class UserResourceController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping("{userName}/password")
+    @PutMapping("{email}/password")
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<UserResource> password(@PathVariable String userName) {
+    public ResponseEntity<UserResource> password(@PathVariable String email) {
         //TODO change logic
         return null;
     }
 
-    @PutMapping("{userName}/password/reset")
+    @PutMapping("{email}/password/reset")
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<UserResource> passwordReset(@PathVariable String userName) {
+    public ResponseEntity<UserResource> passwordReset(@PathVariable String email) {
         //TODO reset logic
         return null;
     }

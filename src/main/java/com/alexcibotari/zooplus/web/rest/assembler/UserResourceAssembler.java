@@ -21,15 +21,20 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserRe
 
     @Override
     public UserResource toResource(User entity) {
-        UserResource resource = createResourceWithId(entity.getUserName(), entity);
-        resource.add(entityLinks.linkFor(UserResource.class).slash(entity.getUserName()).slash("authorities").withRel("authorities"));
+        UserResource resource = createResourceWithId(entity.getEmail(), entity);
+        resource.add(entityLinks.linkFor(UserResource.class).slash(entity.getEmail()).slash("authorities").withRel("authorities"));
         return resource;
     }
 
     @Override
     protected UserResource instantiateResource(User entity) {
         UserResource resource = new UserResource();
-        resource.setUserName(entity.getUserName());
+        resource.setEmail(entity.getEmail());
+        resource.setBirthDay(entity.getBirthDay());
+        resource.getContact().setCity(entity.getContact().getCity());
+        resource.getContact().setCountry(entity.getContact().getCountry());
+        resource.getContact().setStreet(entity.getContact().getStreet());
+        resource.getContact().setZip(entity.getContact().getZip());
         resource.setCreatedDate(entity.getCreatedDate());
         resource.setLastModifiedDate(entity.getLastModifiedDate());
         return resource;

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="app/styles.css"/>
+</head>
+<body>
+<div class="container">
+    <p th:if="${param.success}" class="alert alert-error">Your account is created and activated. Go back to <a th:href="@{/}">Login page</a></p>
+    <form th:unless="${param.success}" class="form-horizontal" th:action="@{/register}" action="#" method="POST" th:object="${userResource}">
+        <h2>Please fill you data</h2>
+        <div th:classappend="${#fields.hasErrors('email')}? 'has-error' : 'has-success'" class="form-group">
+            <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{email}" id="inputEmail" name="email" class="form-control"
+                       placeholder="Email address" required="" autofocus=""/>
+                <span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</span>
+            </div>
+        </div>
+        <div th:classappend="${#fields.hasErrors('password')}? 'has-error' : 'has-success'" class="form-group">
+            <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" th:field="*{password}" id="inputPassword" name="password" class="form-control"
+                       placeholder="Password" required=""/>
+                <span class="help-block" th:if="${#fields.hasErrors('password')}"
+                      th:errors="*{password}">Email error</span>
+            </div>
+        </div>
+        <div th:classappend="${#fields.hasErrors('birthDay')}? 'has-error' : 'has-success'" class="form-group">
+            <label for="inputBirthDay" class="col-sm-2 control-label">Birth Day</label>
+            <div class="col-sm-10">
+                <input type="date" th:field="*{birthDay}" id="inputBirthDay" name="birthDay" class="form-control"
+                       placeholder="Birth Day" required=""/>
+                <span class="help-block" th:if="${#fields.hasErrors('birthDay')}" th:errors="*{birthDay}">Birth Day error</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <hr/>
+            </div>
+        </div>
+        <div th:classappend="${#fields.hasErrors('contact.street')}? 'has-error' : 'has-success'" class="form-group">
+            <label for="inputContactStreet" class="col-sm-2 control-label">Street</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{contact.street}" id="inputContactStreet" name="contactStreet" class="form-control"
+                       placeholder="Street" required=""/>
+                <span class="help-block" th:if="${#fields.hasErrors('contact.street')}" th:errors="*{contact.street}">Street error</span>
+            </div>
+        </div>
+        <div th:classappend="${#fields.hasErrors('contact.zip')}? 'has-error' : 'has-success'" class="form-group">
+            <label for="inputContactZip" class="col-sm-2 control-label">ZIP</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{contact.zip}" id="inputContactZip" name="contactZip" class="form-control"
+                       placeholder="Zip" required=""/>
+                <span class="help-block" th:if="${#fields.hasErrors('contact.zip')}" th:errors="*{contact.zip}">ZIP error</span>
+            </div>
+        </div>
+        <div th:classappend="${#fields.hasErrors('contact.city')}? 'has-error' : 'has-success'" class="form-group">
+            <label for="inputContactCity" class="col-sm-2 control-label">City</label>
+            <div class="col-sm-10">
+                <input type="text" th:field="*{contact.city}" id="inputContactCity" name="contactCity" class="form-control"
+                       placeholder="City" required=""/>
+                <span class="help-block" th:if="${#fields.hasErrors('contact.city')}" th:errors="*{contact.city}">City error</span>
+            </div>
+        </div>
+        <div th:classappend="${#fields.hasErrors('contact.country')}? 'has-error' : 'has-success'" class="form-group">
+            <label for="inputContactCountry" class="col-sm-2 control-label">Country</label>
+            <div class="col-sm-10">
+                <select th:field="*{contact.country}" id="inputContactCountry" name="contactCountry" class="form-control" required="">
+                    <option th:each="country : ${countries}"
+                            th:value="${country.key}"
+                            th:text="${country.value}">Option</option>
+                </select>
+                <span class="help-block" th:if="${#fields.hasErrors('contact.country')}" th:errors="*{contact.country}">Country error</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

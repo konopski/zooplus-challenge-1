@@ -5,8 +5,8 @@ import com.alexcibotari.zooplus.domain.Authority;
 import com.alexcibotari.zooplus.domain.User;
 import com.alexcibotari.zooplus.repository.AuthorityRepository;
 import com.alexcibotari.zooplus.repository.UserRepository;
+import com.alexcibotari.zooplus.security.AuthoritiesConstants;
 import com.alexcibotari.zooplus.security.SecurityUtils;
-import com.alexcibotari.zooplus.service.util.RandomUtil;
 import com.alexcibotari.zooplus.web.rest.resource.UserResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,20 +34,28 @@ public class UserServiceImp implements UserService {
     @Transactional
     public User create(UserResource resource) {
         User user = new User();
-        user.setUserName(resource.getUserName());
+        user.setEmail(resource.getEmail());
         user.setEnabled(resource.getEnabled());
-        user.setPassword(passwordEncoder.encode(RandomUtil.generatePassword()));
+        user.setPassword(passwordEncoder.encode(resource.getPassword()));
+        user.setBirthDay(resource.getBirthDay());
+        user.getContact().setStreet(resource.getContact().getStreet());
+        user.getContact().setZip(resource.getContact().getZip());
+        user.getContact().setCity(resource.getContact().getCity());
+        user.getContact().setCountry(resource.getContact().getCountry());
 
         Set<Authority> authorities = new HashSet<>();
-        resource.getAuthorities().stream().forEach(authority -> authorityRepository.findOneByName(authority).map(authorities::add));
+        if (resource.getAuthorities().size() == 0) {
+            resource.getAuthorities().add(AuthoritiesConstants.USER);
+        }
+        resource.getAuthorities().forEach(authority -> authorityRepository.findOneByName(authority).map(authorities::add));
         user.setAuthorities(authorities);
 
         return userRepository.save(user);
     }
 
     @Transactional
-    public Optional<User> update(String userName, UserResource resource) {
-        return userRepository.findOneByUserName(userName)
+    public Optional<User> update(String email, UserResource resource) {
+        return userRepository.findOneByEmail(email)
                 .map(entity -> {
                     entity.setEnabled(resource.getEnabled());
                     Set<Authority> authorities = new HashSet<>();
@@ -57,12 +65,12 @@ public class UserServiceImp implements UserService {
                 });
     }
 
-    public Optional<User> findOneByUserName(String username) {
-        return userRepository.findOneByUserName(username);
+    public Optional<User> findOneByEmail(String email) {
+        return userRepository.findOneByEmail(email);
     }
 
     public Optional<User> getCurrentUser() {
-        return userRepository.findOneByUserName(SecurityUtils.getCurrentUserName());
+        return userRepository.findOneByEmail(SecurityUtils.getCurrentUserName());
     }
 
     public List<User> findAll() {
@@ -70,7 +78,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Transactional
-    public Optional<User> delete(String userName) {
-        return userRepository.deleteByUserName(userName);
+    public Optional<User> delete(String email) {
+        return userRepository.deleteByEmail(email);
     }
 }

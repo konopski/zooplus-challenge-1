@@ -3,6 +3,7 @@ package com.alexcibotari.zooplus.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,9 +11,9 @@ import java.util.Set;
 public class User extends AbstractAuditingEntity {
 
     @Column(nullable = false, unique = true)
-    private String userName;
+    private String email;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
+    @Column(name = "password_hash", nullable = false)
     @JsonIgnore
     private String password;
 
@@ -27,16 +28,22 @@ public class User extends AbstractAuditingEntity {
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
     private Set<Authority> authorities = new HashSet<>();
 
+    @Column(nullable = false)
+    private Date birthDay;
+
+    @Embedded
+    private ContactDetails contact = new ContactDetails();
+
 
     public User() {
     }
 
-    public String getUserName() {
-        return userName;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -63,6 +70,22 @@ public class User extends AbstractAuditingEntity {
         this.enabled = enabled;
     }
 
+    public Date getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public ContactDetails getContact() {
+        return contact;
+    }
+
+    public void setContact(ContactDetails contact) {
+        this.contact = contact;
+    }
+
     public int hashCode() {
         return toString().hashCode();
     }
@@ -71,7 +94,7 @@ public class User extends AbstractAuditingEntity {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("Id: ").append(getId()).append(", ");
-        sb.append("UserName: ").append(getUserName()).append(", ");
+        sb.append("Email: ").append(getEmail()).append(", ");
         sb.append("Enabled : ").append(getEnabled());
         sb.append("}");
         return sb.toString();

@@ -29,7 +29,7 @@ class NavBar extends Component {
                     </div>
                     <div classID="navbar" className="navbar-collapse collapse">
                         <div className="navbar-form navbar-right">
-                            <span>Hello {this.props.profile.userName} </span>
+                            <span>Hello {this.props.profile.email} </span>
                             &nbsp;&nbsp;&nbsp;
                             <a href="/logout" className="btn btn-default">
                                 Sign Out

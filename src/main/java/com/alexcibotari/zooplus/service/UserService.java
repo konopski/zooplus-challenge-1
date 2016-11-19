@@ -9,15 +9,15 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<User> findOneByUserName(String username);
+    Optional<User> findOneByEmail(String email);
 
     User create(UserResource resource);
 
-    Optional<User> update(String userName, UserResource resource);
+    Optional<User> update(String email, UserResource resource);
 
     Optional<User> getCurrentUser();
 
     List<User> findAll();
 
-    Optional<User> delete(String userName);
+    Optional<User> delete(String email);
 }
