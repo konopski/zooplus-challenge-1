@@ -1,5 +1,7 @@
 # NAKAMA
 
+[![Build Status](https://travis-ci.org/alexcibotari/zooplus-challenge.svg?branch=master)](https://travis-ci.org/alexcibotari/zooplus-challenge)
+
 ## 0. Pre-requirements
 + Java 8
 + NodeJS
