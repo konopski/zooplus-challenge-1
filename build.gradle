@@ -25,6 +25,16 @@ springBoot {
 jar {
     baseName = 'zooplus-challenge'
     version = '0.0.1'
+    manifest {
+        attributes(
+                "Implementation-Title": "zooplus-chnallenge",
+                "Implementation-Version": version,
+                "Main-Class": "com.alexcibotari.zooplus.Application"
+        )
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -61,19 +71,6 @@ dependencies {
 
     //Test Artifacts -->
     testCompile 'org.springframework.boot:spring-boot-starter-test'
-}
-
-jar {
-    manifest {
-        attributes(
-                "Implementation-Title": "zooplus-chnallenge",
-                "Implementation-Version": version,
-                "Main-Class": "com.alexcibotari.zooplus.Application"
-        )
-    }
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
 }
 
 idea {
