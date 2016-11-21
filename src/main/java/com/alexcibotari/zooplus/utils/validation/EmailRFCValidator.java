@@ -4,6 +4,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
+/**
+ * Validate Email according to RFC
+ */
 public class EmailRFCValidator implements ConstraintValidator<EmailRFC, String> {
 
 

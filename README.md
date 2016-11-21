@@ -21,7 +21,6 @@
 
 ## 2. Run
 ### Spring Boot
-#### Java
 Run `./gradlew bootRun`
 
 ## 3. Default Application credentials
