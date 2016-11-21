@@ -15,9 +15,9 @@
 ## 2. Build 
 ### Build and Copy UI dependencies
 - run `gulp`
+
 ### Build Java
 - run `./gradlew assemble`
-
 
 ## 2. Run
 ### Spring Boot
