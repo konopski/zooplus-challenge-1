@@ -12,13 +12,17 @@
 - Install Global packages `npm install gulp-cli -g`
 - Install Local packages `npm install`
 
-### Build and Copy project dependencies
+## 2. Build 
+### Build and Copy UI dependencies
 - run `gulp`
+### Build Java
+- run `./gradlew assemble`
+
 
 ## 2. Run
 ### Spring Boot
 #### Java
-Run Application.java
+Run `./gradlew bootRun`
 
-## 3. Application credentials
-admin / admin
+## 3. Default Application credentials
+admin / admin 
