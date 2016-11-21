@@ -29,33 +29,28 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) throws Exception {
         auth
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder);
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-            .antMatchers("/register")
-            .antMatchers("/*.{css,js,html}")
-            .antMatchers("/libs/**")
-            .antMatchers("/app/**");
-        //.antMatchers("/i18n/**")
-        //.antMatchers("/assets/**")
-        //.antMatchers("/swagger-ui/index.html")
-        //.antMatchers("/test/**")
-        //.antMatchers("/console/**");
+                .antMatchers("/register")
+                .antMatchers("/*.{css,js,html}")
+                .antMatchers("/libs/**")
+                .antMatchers("/app/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.
-            csrf().disable().
-            headers().
+                csrf().disable(). //TODO resolve csrf issue from client side
+                headers().
                 frameOptions().sameOrigin().and().
-            authorizeRequests().anyRequest().fullyAuthenticated().and().
-            formLogin().loginPage("/login").failureUrl("/login?error").permitAll().and().
-            logout().permitAll();
+                authorizeRequests().anyRequest().fullyAuthenticated().and().
+                formLogin().loginPage("/login").failureUrl("/login?error").permitAll().and().
+                logout().permitAll();
     }
 
 }

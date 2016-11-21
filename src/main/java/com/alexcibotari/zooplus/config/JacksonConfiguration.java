@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 @Configuration
 public class JacksonConfiguration {
@@ -23,25 +22,10 @@ public class JacksonConfiguration {
     @Primary
     @Bean(name = "objectMapper")
     ObjectMapper objectMapper() {
-        //springHateoasObjectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        //springHateoasObjectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        //springHateoasObjectMapper.configure(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
-        //springHateoasObjectMapper.configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, false);
-        //springHateoasObjectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         springHateoasObjectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);//Exclude null from JSON
         springHateoasObjectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);//Java8 Time library
 
         springHateoasObjectMapper.registerModules(new JavaTimeModule());
         return springHateoasObjectMapper;
     }
-
-
-   /* @Bean
-    Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
-        JavaTimeModule module = new JavaTimeModule();
-        return new Jackson2ObjectMapperBuilder()
-            .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            .findModulesViaServiceLoader(true)
-            .modulesToInstall(module);
-    }*/
 }

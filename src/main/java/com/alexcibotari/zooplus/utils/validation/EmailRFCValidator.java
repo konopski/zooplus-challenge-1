@@ -16,7 +16,7 @@ public class EmailRFCValidator implements ConstraintValidator<EmailRFC, String> 
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if ( value == null ) {
+        if (value == null) {
             return true;
         }
         return Pattern.matches(ValidationConstants.EMAIL_RFC_REGEX, value);
