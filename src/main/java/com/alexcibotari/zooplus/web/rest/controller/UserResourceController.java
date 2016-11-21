@@ -24,6 +24,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
+/**
+ * REST API Controller for User Resource
+ */
 @RestController
 @RequestMapping(path = "/api/users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @ExposesResourceFor(UserResource.class)
@@ -40,6 +43,11 @@ public class UserResourceController {
     @Autowired
     private UserResourceAssembler resourceAssembler;
 
+    /**
+     * GET / : Get list of all users
+     *
+     * @return the ResponseEntity with status 200 (OK) and with body all users
+     */
     @GetMapping
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<Resources<UserResource>> list() {
@@ -48,12 +56,25 @@ public class UserResourceController {
         return ResponseEntity.ok(resources);
     }
 
+    /**
+     * GET /:email : Get user by Email
+     *
+     * @param email
+     * @return the ResponseEntity with status 200 (OK) and with body user
+     */
     @GetMapping("{email}")
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<UserResource> one(@PathVariable String email) {
         return toResourceResponse(service.findOneByEmail(email));
     }
 
+    /**
+     * POST / : Create user
+     *
+     * @param resource
+     * @return the ResponseEntity with status 200 (OK) and with body user
+     * @throws URISyntaxException
+     */
     @PostMapping
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<?> create(@RequestBody UserResource resource) throws URISyntaxException {
@@ -65,12 +86,25 @@ public class UserResourceController {
         }
     }
 
+    /**
+     * PUT /:email : Update user by Email
+     *
+     * @param email    user email
+     * @param resource new user object
+     * @return the ResponseEntity with status 200 (OK) and with body user
+     */
     @PutMapping("{email}")
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<UserResource> update(@PathVariable String email, @RequestBody UserResource resource) {
         return toResourceResponse(service.update(email, resource));
     }
 
+    /**
+     * DELETE /:email : Delete user by email
+     *
+     * @param email user email
+     * @return the ResponseEntity with status 200 (OK) and with body user
+     */
     @DeleteMapping("{email}")
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<UserResource> delete(@PathVariable String email) {

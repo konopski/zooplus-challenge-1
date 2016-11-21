@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * REST API Controller for personal information
+ */
 @RestController
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MeResourceController {
@@ -26,6 +29,11 @@ public class MeResourceController {
     @Autowired
     private UserResourceAssembler userResourceAssembler;
 
+    /**
+     * GET /me .
+     *
+     * @return Current user profile
+     */
     @GetMapping(path = "me")
     public ResponseEntity<?> me() {
         return userService.getCurrentUser().map(user -> ResponseEntity.ok(userResourceAssembler.toResource(user))).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
