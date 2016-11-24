@@ -1,4 +1,4 @@
-# NAKAMA
+# ZooPlus Challenge
 
 [![Build Status](https://travis-ci.org/alexcibotari/zooplus-challenge.svg?branch=master)](https://travis-ci.org/alexcibotari/zooplus-challenge)
 
